@@ -72,7 +72,7 @@ class ThreadInsert(object):
     def mysql_insert(self, *args):
         con = self.pool.connection()
         cur = con.cursor()
-        sql = "INSERT INTO study_index11(study_id, agent_id, create_time) VALUES(%s, 10000, '2020-3-16 09:00:00')"
+        sql = "INSERT INTO study_index11(study_id, agent_id, create_time) VALUES(%s, %s, %s)"
         try:
             cur.executemany(sql, *args)
             con.commit()
