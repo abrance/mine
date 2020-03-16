@@ -37,7 +37,7 @@ class ThreadInsert(object):
         return pool
 
     def getData(self):
-        study_id = ('1.2.{}.9.1.3680043.2.461.11332019.').format(x)
+        study_id = '1.2..9.1.3680043.2.461.11332019.'
         insert_no = ini.get('insert_no')
         study_id_list = [study_id+'{}'.format(i) for i in range(insert_no)]   # 千万数据级别study_id
         agent_id_list = [0]*insert_no
