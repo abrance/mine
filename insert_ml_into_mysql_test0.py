@@ -7,9 +7,9 @@ from DBUtils.PooledDB import PooledDB
 
 
 ini = {
-    'agent_id' = 10000,
-    'create_time' = '2020-3-16 9:00:00',
-    'count' = 100000
+    'agent_id' : 10000,
+    'create_time' : '2020-3-16 9:00:00',
+    'count' : 100000
 }
 
 
