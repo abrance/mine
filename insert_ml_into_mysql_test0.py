@@ -1,6 +1,5 @@
 import pymysql
 import threading
-import re
 import time
 from queue import Queue
 from DBUtils.PooledDB import PooledDB
@@ -8,11 +7,12 @@ import random
 
 
 ini = {
-    'agent_id' : 10000,
-    'create_time' : '2020-3-16 9:00:00',
-    'count' : 100000,
-    'insert_no': 10000000,
-    'study_id_ini': '1.2.9.1.368{0}.2.461.1133{0}.'.format(random.randint(0, 100000))
+    'agent_id' : 10000,    # 固定值，agent_id
+    'create_time' : '2020-3-16 9:00:00',    # 固定值，create_time
+    'count' : 100000,    # executemany每次执行多少行插入
+    'insert_no': 10000000,    # 总插入数量
+    'study_id_ini': '1.2.9.1.368{0}.2.461.1133{0}.'.format(random.randint(0, 100000)),    # 初始studyid
+    'thread_no': 10    # 线程数量
 }
 
 
@@ -49,17 +49,7 @@ class ThreadInsert(object):
 
         cnt = ini.get('count')
         return [param_list[i:i+cnt] for i in range(0, insert_no, cnt)]   # 把列表切分成cnt长度的小列表的列表
-            
-#         with open("10w.txt", "rb") as f:
-#              data = []
-#              for line in f:
-#                  line = re.sub("\s", "", str(line, encoding="utf-8"))
-#                  line = tuple(line[1:-1].split("\"\""))
-#                  data.append(line)
-#           n = 100000    # 按每10万行数据为最小单位拆分成嵌套列表
-#         result = [data[i:i + n] for i in range(0, len(data), n)]
-#         print("共获取{}组数据,每组{}个元素.==>> 耗时:{}'s".format(len(result), n, round(time.time() - st, 3)))
-#         return result
+
 
     def mysql_delete(self):
         st = time.time()
@@ -87,7 +77,8 @@ class ThreadInsert(object):
             con.close()
 
     def task(self):
-        q = Queue(maxsize=10)  # 设定最大队列数和线程数
+        thread_no = ini.get('thread_no')
+        q = Queue(maxsize=thread_no)  # 设定最大队列数和线程数
         st = time.time()
         while self.data:
             content = self.data.pop()
