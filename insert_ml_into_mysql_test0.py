@@ -10,7 +10,8 @@ ini = {
     'agent_id' : 10000,
     'create_time' : '2020-3-16 9:00:00',
     'count' : 100000,
-    'insert_no': 10000000
+    'insert_no': 10000000,
+    'study_id_ini': '1.2.9.1.3680043.2.461.113320203.'
 }
 
 
@@ -38,7 +39,7 @@ class ThreadInsert(object):
         return pool
 
     def getData(self):
-        study_id = '1.2..9.1.3680043.2.461.11332019.'
+        study_id = ini.get('study_id_ini')
         insert_no = ini.get('insert_no')
         study_id_list = [study_id+'{}'.format(i) for i in range(insert_no)]   # 千万数据级别study_id
         agent_id_list = [0]*insert_no
