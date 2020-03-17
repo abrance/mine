@@ -4,6 +4,7 @@ import re
 import time
 from queue import Queue
 from DBUtils.PooledDB import PooledDB
+import random
 
 
 ini = {
@@ -11,7 +12,7 @@ ini = {
     'create_time' : '2020-3-16 9:00:00',
     'count' : 100000,
     'insert_no': 10000000,
-    'study_id_ini': '1.2.9.1.3680043.2.461.113320203.'
+    'study_id_ini': '1.2.9.1.368{0}.2.461.1133{0}.'.format(random.randint(0, 100000))
 }
 
 
