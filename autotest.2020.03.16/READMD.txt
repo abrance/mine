@@ -1,0 +1,19 @@
+自动化测试的目的是运行一些基本的测试，保证每次代码修改不会破坏一些功能。
+
+运行自动化测试，需要给出指示测试执行的配置文件。在命令行中可以给出一个
+或多个测试配置文件。注意：测试配置文件实际上就是一个包含 python3 代码
+的源代码文件。
+
+比如，在当前目录下有两个测试配置文件 testconf1.py 和 testconf2.py。运
+行测试用例的方法如下：
+
+$ python3 autotest.py testconf1.py
+$ python3 autotest.py testconf2.py
+$ python3 autotest.py testconf1.py testconf2.py
+
+如果测试配置文件在其他位置，例如 /tmp/testconf3，则需要指定全路径：
+
+$ python3 autotest.py /tmp/testconf3
+
+mike
+2020-03-11
