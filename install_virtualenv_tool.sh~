@@ -1,8 +1,0 @@
-#! /bin/bash
-echo 'install virtualenv tool ....'
-pip install virtualenv
-pip install virtualenvwrapper
-mkdir ~/py_vm
-
-echo "export WORKON_HOME=~/py_vm" >> ~/.bashrc 
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc 
