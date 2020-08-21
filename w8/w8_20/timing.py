@@ -21,6 +21,7 @@ class Sta(object):
 
             print(inspect.currentframe().f_back.f_locals.keys())
 
+            # 2020/8/20 不能获取到这个函数中传入的变量名、值
             ls = list(inspect.currentframe().f_back.f_locals.keys())[-_len:]
             print(ls)
 
