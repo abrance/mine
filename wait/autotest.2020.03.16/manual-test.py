@@ -4,7 +4,6 @@
 
 import struct
 import json
-import time
 import collections
 
 import config
@@ -23,7 +22,6 @@ import datetime
 from config import config_info
 from ctypes import *
 from gen_path_by_study_id import study_id_to_path
-from itertools import chain
 from functools import reduce
 from multiprocessing import Process
 
@@ -371,7 +369,7 @@ def download(save_path, sgw_path, file_size):
     # sgw_sock = handle_common.connect_sgw()
     sgw_sock = utils.create_client_socket(config_info.sgw_host, int(sgw_port))
 
-    with open(save_path, 'w+b') as fp:
+    with open(save_path, 'auto_build+b') as fp:
         handle_common.msg_headers.command = 0x20011
         handle_common.msg_headers.total = file_size
         handle_common.msg_headers.offset = 0

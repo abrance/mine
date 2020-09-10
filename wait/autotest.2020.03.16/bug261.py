@@ -13,11 +13,9 @@
 
 import time
 import json
-import struct
 import socket
 
 import config
-import utils
 import message
 
 default_mds_addr = "192.168.66.21"

@@ -82,7 +82,7 @@ def _increment(t):
 def record():
     while True:
         read = input('r')
-        write = input('w')
+        write = input('auto_build')
         think = input('t')
         buy = input('b')
 
@@ -95,7 +95,7 @@ def record():
                 w_index = choice([71, 73, 79])
                 t_index = increment(think)
                 b_index = choice([191, 193, 197])
-                print('r: \n{} w: {} t: {} b: {}\n'.format(r_index, w_index, t_index, b_index))
+                print('r: \n{} auto_build: {} t: {} b: {}\n'.format(r_index, w_index, t_index, b_index))
                 ts = int(read) * r_index + int(write) * w_index + int(think) * t_index + int(buy) * b_index
                 global total_score
                 new_total_score = str(int(int(total_score) + ts))
@@ -115,7 +115,7 @@ def log_log(read, write, think, buy, r_index, w_index, t_index, b_index, old_sco
     with open('./log', 'a', encoding='utf-8') as file:
         now = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
         file.writelines(
-            'log_time:{}\nr:{} w:{} t:{} b:{} r_index:{} w_index:{} t_index:{} b_index:{} old_score:{} new_score:{}\n'.format(
+            'log_time:{}\nr:{} auto_build:{} t:{} b:{} r_index:{} w_index:{} t_index:{} b_index:{} old_score:{} new_score:{}\n'.format(
                 now, read, write, think, buy, r_index, w_index, t_index, b_index, old_score, new_score))
 
 

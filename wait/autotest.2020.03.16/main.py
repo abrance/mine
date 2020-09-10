@@ -4,8 +4,6 @@
 
 import struct
 import json
-import time
-import collections
 import hashlib
 
 import config
