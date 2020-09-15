@@ -1,4 +1,3 @@
 # mine
-stroing tmp and massive code
-
-# homework and advise
+    store temp and massive code
+    homework and advise
