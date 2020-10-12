@@ -1,3 +1,3 @@
-(defun double (x) (* x 2))
+;(defun double x (+ x 2))
 
-(double 2)
+;(write (double 2))
