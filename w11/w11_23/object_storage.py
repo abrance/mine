@@ -198,8 +198,8 @@ if __name__ == "__main__":
     # new_s3_obj.create_new_object('/root/storage/my_storage/_mine/README.md', 'README.md')
     # 上传目录
     # path = '/root/storage/my_storage/_mine/w8'
-    # path = '/root/storage/my_storage/_mine/w11/1.2.826.0.1.3680043.2.461.11088451.1001821047'
-    path = '/root/storage/my_storage/_mine/w11/pixelspacingtestimages'
+    # path = '/root/storage/my_storage/_mine/w11_30/1.2.826.0.1.3680043.2.461.11088451.1001821047'
+    path = '/root/storage/my_storage/_mine/w11_30/pixelspacingtestimages'
     parent, d = os.path.split(path)
 
     import datetime
