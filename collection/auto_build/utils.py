@@ -31,8 +31,8 @@ exe_dc = {
     'cli': '/transfer_client/agent.py',
     'mds': '/app/main',
     'fpt': 'main.py',
-    'sgw': '/bin/sgw w -r {} -s 1 -g 1 -l 0.0.0.0:{}:0x90000001 -c '
-           '{}:{} -a {}:{} -b {} -w 16 -d',
+    'sgw': '/bin/sgw w12_25 -r {} -s 1 -g 1 -l 0.0.0.0:{}:0x90000001 -c '
+           '{}:{} -a {}:{} -b {} -w12_25 16 -d',
     'monitor': 'main.py',
     'asm': 'asm_main'
 }

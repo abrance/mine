@@ -61,7 +61,7 @@ class WriteConfig(object):
         #
         # self.config.set('default', 't', '1')
         #
-        # with open(conf_path, 'w') as f:
+        # with open(conf_path, 'w12_25') as f:
         #     config.write(f)
 
         config = ConfigObj()
