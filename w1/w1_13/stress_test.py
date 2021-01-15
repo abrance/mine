@@ -4,10 +4,9 @@ import sys
 import time
 import datetime
 
-from paramiko import SSHClient
+from paramiko import SSHClient, AutoAddPolicy
 
-
-meta_path = "./"
+meta_path = "./meta.ini"
 conf = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
 conf.read(meta_path)
 
@@ -21,7 +20,8 @@ class Client(object):
 
     def connect(self):
         ssh = SSHClient()
-        ssh.connect(Config.client, port=22, username=Config.un, password=Config.pw)
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        ssh.connect(hostname=Config.client, port=22, username=Config.un, password=Config.pw)
         self.ssh = ssh
 
     def send(self):
@@ -45,13 +45,13 @@ class Config(object):
     cpu_process_cnt = int(conf.get('cpu', 'process_cnt'))
 
     # mem
-    mem_size = int(conf.get('mem', 'size'))
+    mem_size = int(conf.get('mem', 'size').replace('G', ''))
     mem_process_cnt = int(conf.get('mem', 'process_cnt'))
     io = int(conf.get('mem', 'io'))
 
     # hdd
     hdd_process_cnt = int(conf.get('hdd', 'process_cnt'))
-    hdd_size = int(conf.get('hdd', 'size'))
+    hdd_size = int(conf.get('hdd', 'size').replace('G', ''))
 
     # net
     client = conf.get('net', 'client')
@@ -67,7 +67,7 @@ def no_block(cmd: str):
         pass
     else:
         cmd += ' &'
-
+    print(cmd)
     return cmd
 
 
@@ -81,10 +81,11 @@ class Command(object):
     CMD_STRESS_CPU = "stress -c {process_cnt} -t {time}s".\
         format(process_cnt=Config.cpu_process_cnt, time=Config.run_time)
     # 新增4个io进程，10个内存分配进程，每次分配大小1G，分配后不释放，测试100S
-    CMD_STRESS_MEM = "stress –i {io} –vm {process_cnt} –vm-bytes {size} –vm-hang {sec} –t {sec}s".\
+    CMD_STRESS_MEM = "stress --io {io} --vm {process_cnt} --vm-bytes {size} --vm-hang {sec} -t {sec}s".\
         format(io=Config.io, process_cnt=Config.mem_process_cnt, size=Config.mem_size, sec=Config.run_time)
-    # 3、磁盘I/O测试 输入命令：stress –d 1 --hdd-bytes 3G 新增1个写进程，每次写3G文件块
-    CMD_STRESS_HDD = "stress –d 1 --hdd-bytes {} -t {}s".format(Config.hdd_process_cnt, Config.run_time)
+    # 3、磁盘I/O测试 输入命令：stress -d 1 --hdd-bytes 3G 新增1个写进程，每次写3G文件块
+    CMD_STRESS_HDD = "stress -d 1 --hdd {} --hdd-bytes {}G -t {}s".\
+        format(Config.hdd_process_cnt, Config.hdd_size, Config.run_time)
 
     CMD_STRESS_COMPLEX = "stress "
 
@@ -98,7 +99,8 @@ class Command(object):
 
 class NetStress(object):
     def __init__(self):
-        self.test()
+        # self.test()
+        pass
 
     @staticmethod
     def client_send():
@@ -106,6 +108,8 @@ class NetStress(object):
         c.send()
 
     def stress(self):
+        print('{n} init NET STRESS {n}'.format(n='<'*20))
+
         os.system(no_block(Command.CMD3))
         time.sleep(Config.interval_init)
         self.client_send()
@@ -161,19 +165,20 @@ class MultiStress(object):
             Command.CMD_STRESS_COMPLEX += Command.CMD_STRESS_CPU.replace("stress ", "")
 
         if "MEM" in Config.test_target:
-            Command.CMD_STRESS_COMPLEX += Command.CMD_STRESS_MEM.replace("stress ", "")
+            Command.CMD_STRESS_COMPLEX += Command.CMD_STRESS_MEM.replace("stress", "")
 
         if "HDD" in Config.test_target:
-            Command.CMD_STRESS_COMPLEX += Command.CMD_STRESS_HDD.replace("stress ", "")
-        ret = os.system(no_block(Command.CMD_STRESS_COMPLEX))
-        print(no_block(Command.CMD_STRESS_COMPLEX))
-        if not ret:
-            raise Exception("STRESS ERROR")
+            Command.CMD_STRESS_COMPLEX += Command.CMD_STRESS_HDD.replace("stress", "")
+        os.system(no_block(Command.CMD_STRESS_COMPLEX))
+        # print(no_block(Command.CMD_STRESS_COMPLEX))
+        # if not ret:
+        #     raise Exception("STRESS ERROR")
 
 
 class Controller(object):
     def __init__(self):
         self.init()
+        self.watch()
 
     @staticmethod
     def multi():
@@ -195,6 +200,7 @@ class Controller(object):
             pass
 
     def init(self):
+        print('<<<<<< init {} {}'.format(Config.test_target, '<'*20))
         if 'NET' in Config.test_target:
             assert isinstance(Config.test_target, list)
             n = NetStress()
@@ -219,4 +225,4 @@ class Controller(object):
 
 
 if __name__ == '__main__':
-    pass
+    Controller()
